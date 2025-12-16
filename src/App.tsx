@@ -3,64 +3,62 @@ import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "./services/api/users";
 import { getQueryParam } from "./hooks/getQueryParams";
 import type { User } from "./types/user";
+import { UserTable } from "./components/tables/UserTable";
+import FilterBar from "./components/Filter/FilterBar";
+import { Pagination } from "./components/Pagination/pagination";
+import { useEffect } from "react";
 
 export default function App() {
-  const page = getQueryParam("page", 1);
-  const limit = getQueryParam("limit", 20);
+  const [searchParams] = useSearchParams();
 
-  const { data, isLoading, error } = useQuery({
+  const page = Number(searchParams.get("page") ?? 1);
+  const limit = Number(searchParams.get("limit") ?? 20);
+
+  console.log({ limit });
+
+  const {
+    data: usersResponse,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["users", page, limit],
     queryFn: () => getUsers(page, limit),
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading users</p>;
-  if (!data) return null;
+  useEffect(() => {}, [limit]);
+
+  console.log({ usersResponse });
+
+  if (isLoading) return <p className="p-8 text-white">Loading...</p>;
+  if (error) return <p className="p-8 text-white">Error loading users</p>;
+  if (!usersResponse?.data) return null;
+
+  const totalPages = Math.ceil(usersResponse.total / limit);
+  console.log({ totalPages });
 
   return (
-    <div style={{ padding: 24 }}>
-      <h1>Users</h1>
+    <div
+      className="
+    min-h-screen
+    bg-gradient-to-b
+    from-sky-600
+    via-sky-500
+    to-white
+    p-8
+  "
+    >
+      <h1 className="ml-3 text-2xl font-semibold text-white/90">Users</h1>
 
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-        }}
-      >
-        <thead>
-          <tr>
-            <th style={th}>First name</th>
-            <th style={th}>Last name</th>
-            <th style={th}>Email</th>
-            <th style={th}>Country</th>
-            <th style={th}>Role</th>
-          </tr>
-        </thead>
+      <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-black/10 to-transparent" />
 
-        <tbody>
-          {data.data.map((user: User) => (
-            <tr key={user.id}>
-              <td style={td}>{user.firstName}</td>
-              <td style={td}>{user.lastName}</td>
-              <td style={td}>{user.email}</td>
-              <td style={td}>{user.country?.name ?? "-"}</td>
-              <td style={td}>{user.role?.name ?? "-"}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="relative z-10 mt-2">
+        <FilterBar rows={limit} />
+
+        <div className="mt-6">
+          <UserTable users={usersResponse.data as User[]} />
+          <Pagination page={1} totalPages={totalPages} />
+        </div>
+      </div>
     </div>
   );
 }
-
-const th: React.CSSProperties = {
-  border: "1px solid #ddd",
-  padding: "8px",
-  textAlign: "left",
-  background: "#f5f5f5",
-};
-
-const td: React.CSSProperties = {
-  border: "1px solid #ddd",
-  padding: "8px",
-};
