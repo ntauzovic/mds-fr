@@ -36,9 +36,6 @@ export default function App() {
   if (error) return <p className="p-8 text-white">Error loading users</p>;
   if (!usersResponse?.data) return null;
 
-  const totalPages = Math.ceil(usersResponse.total / limit);
-  console.log({ totalPages });
-
   return (
     <div
       className="
@@ -59,7 +56,7 @@ export default function App() {
 
         <div className="mt-6">
           <UserTable users={usersResponse.data as User[]} />
-          <Pagination page={0} totalPages={0} />
+          <Pagination totalUsers={usersResponse.total} rows={limit} />
         </div>
       </div>
     </div>
