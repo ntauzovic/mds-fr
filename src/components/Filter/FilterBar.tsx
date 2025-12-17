@@ -9,9 +9,10 @@ export default function FilterBar() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const limit = Number(searchParams.get("limit") ?? 20);
-  console.log({ searchParams });
   const role = searchParams.get("role") ?? "";
   const countryId = searchParams.get("countryId") ?? "";
+  const sort = searchParams.get("sort") ?? "";
+  const order = searchParams.get("order") ?? "";
 
   const { data: roles } = useQuery({
     queryKey: ["roles"],
@@ -21,7 +22,6 @@ export default function FilterBar() {
     queryKey: ["countries"],
     queryFn: () => getCountries(),
   });
-  console.log({ countries, roles });
 
   return (
     <div
@@ -132,12 +132,83 @@ export default function FilterBar() {
   "
             >
               <option value="">All roles</option>
-
               {roles?.map((role: Role) => (
                 <option key={role.id} value={role.name}>
                   {role.name}
                 </option>
-              ))}
+              ))}{" "}
+            </select>
+          </div>
+          <div className="w-full sm:w-48">
+            <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
+              Sort By Field
+            </label>
+
+            <select
+              value={sort}
+              onChange={(e) => {
+                const value = e.target.value;
+                const params = new URLSearchParams(searchParams);
+
+                if (value) {
+                  params.set("sort", value);
+                } else {
+                  params.delete("sort");
+                }
+
+                params.set("page", "1");
+                setSearchParams(params);
+              }}
+              className="
+      w-full rounded-lg
+      border border-gray-300
+      bg-white
+      px-4 py-3
+      text-sm text-gray-900
+      focus:border-red-600
+      focus:ring-1 focus:ring-red-600
+      focus:outline-none
+    "
+            >
+              <option value="">Default</option>
+              <option value="lastName">Last name</option>
+              <option value="firstName">First name</option>
+              <option value="email">Email</option>
+            </select>
+          </div>
+          <div className="w-full sm:w-48">
+            <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
+              Sort By Field
+            </label>
+
+            <select
+              value={order}
+              onChange={(e) => {
+                const value = e.target.value;
+                const params = new URLSearchParams(searchParams);
+
+                if (value) {
+                  params.set("order", value);
+                } else {
+                  params.delete("order");
+                }
+
+                params.set("page", "1");
+                setSearchParams(params);
+              }}
+              className="
+      w-full rounded-lg
+      border border-gray-300
+      bg-white
+      px-4 py-3
+      text-sm text-gray-900
+      focus:border-red-600
+      focus:ring-1 focus:ring-red-600
+      focus:outline-none
+    "
+            >
+              <option value="asc">ASC</option>
+              <option value="desc">DESC</option>
             </select>
           </div>
         </div>
