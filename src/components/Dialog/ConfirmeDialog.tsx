@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ConfirmDialogProps } from "../../types/confirmDialogProps";
 import { deleteUser } from "../../services/api/users";
+import toast from "react-hot-toast";
 
 export const ConfirmDialog = ({ userId, onCancel }: ConfirmDialogProps) => {
   const queryClient = useQueryClient();
@@ -8,10 +9,14 @@ export const ConfirmDialog = ({ userId, onCancel }: ConfirmDialogProps) => {
   const deleteUserMutation = useMutation({
     mutationFn: deleteUser,
     onSuccess: () => {
+      toast.success("User delete successfully");
       queryClient.invalidateQueries({ queryKey: ["users"] });
       if (onCancel) {
         onCancel();
       }
+    },
+    onError: () => {
+      toast.error("Failed to delete user");
     },
   });
 

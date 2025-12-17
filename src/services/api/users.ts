@@ -37,6 +37,10 @@ export const getUsers = async (
 
 export const deleteUser = async (userId: number) => {
   const response = await api.delete(`/users/${userId}`);
+
+  if (response.status !== 200 && response.status !== 204) {
+    throw new Error("Failed to delete user");
+  }
   return {
     response,
   };
