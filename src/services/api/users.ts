@@ -34,3 +34,10 @@ export const getUsers = async (
     total: Number(response.headers["x-total-count"]),
   };
 };
+
+export const deleteUser = async (userId: number) => {
+  const response = await api.delete(`/users/${userId}`);
+  return {
+    response,
+  };
+};

@@ -1,11 +1,19 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ConfirmDialogProps } from "../../types/confirmDialogProps";
+import { deleteUser } from "../../services/api/users";
 
 export const ConfirmDialog = ({ userId, onCancel }: ConfirmDialogProps) => {
-  console.log({ userId });
+  const queryClient = useQueryClient();
 
-  const handleDeteleUser = () => {
-    alert(`User with ID ${userId} has been deleted.`);
-  };
+  const deleteUserMutation = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      if (onCancel) {
+        onCancel();
+      }
+    },
+  });
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
@@ -37,7 +45,8 @@ export const ConfirmDialog = ({ userId, onCancel }: ConfirmDialogProps) => {
           </button>
 
           <button
-            onClick={handleDeteleUser}
+            onClick={() => deleteUserMutation.mutate(userId)}
+            disabled={deleteUserMutation.isPending}
             className="
               rounded-lg
               bg-red-600
@@ -45,9 +54,10 @@ export const ConfirmDialog = ({ userId, onCancel }: ConfirmDialogProps) => {
               text-sm font-medium
               text-white
               hover:bg-red-700
+              disabled:opacity-50
             "
           >
-            Delete
+            {deleteUserMutation.isPending ? "Deleting..." : "Delete"}
           </button>
         </div>
       </div>
