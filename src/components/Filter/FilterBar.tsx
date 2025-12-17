@@ -1,9 +1,10 @@
-import { getQueryParam } from "../../hooks/getQueryParams";
+import { useSearchParams } from "react-router-dom";
 
-export default function FilterBar({ rows }: { rows?: number }) {
-  console.log({ rows });
-  const limit = getQueryParam("limit", rows || 20);
-  console.log({ limit });
+export default function FilterBar() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const limit = Number(searchParams.get("limit") ?? 20);
+  console.log({ searchParams });
 
   return (
     <div
@@ -43,7 +44,6 @@ export default function FilterBar({ rows }: { rows?: number }) {
             />
           </div>
 
-          {/* Country */}
           <div className="w-full sm:w-48">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
               Country
@@ -92,32 +92,23 @@ export default function FilterBar({ rows }: { rows?: number }) {
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
               Rows
             </label>
+
             <select
-              value={rows}
+              value={limit}
               onChange={(e) => {
-                const newLimit = Number(e.target.value);
+                const newLimit = e.target.value;
 
-                const params = new URLSearchParams(window.location.search);
-                params.set("limit", String(newLimit));
-                params.set("page", "1"); // reset page
-
-                window.history.pushState({}, "", `?${params.toString()}`);
+                setSearchParams({
+                  page: "1", // reset page
+                  limit: newLimit, // NEW limit
+                });
               }}
-              className="
-    w-full rounded-lg
-    border border-gray-300
-    bg-white
-    px-3 py-3
-    text-sm text-gray-900
-    focus:border-red-600
-    focus:ring-1 focus:ring-red-600
-    focus:outline-none
-  "
+              className="w-full rounded-lg border border-gray-300 px-3 py-3 text-sm"
             >
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={25}>25</option>
-              <option value={50}>50</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
             </select>
           </div>
         </div>

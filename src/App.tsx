@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "./services/api/users";
-import { getQueryParam } from "./hooks/getQueryParams";
 import type { User } from "./types/user";
 import { UserTable } from "./components/tables/UserTable";
 import FilterBar from "./components/Filter/FilterBar";
 import { Pagination } from "./components/Pagination/pagination";
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function App() {
   const [searchParams] = useSearchParams();
@@ -52,11 +52,11 @@ export default function App() {
       <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-black/10 to-transparent" />
 
       <div className="relative z-10 mt-2">
-        <FilterBar rows={limit} />
+        <FilterBar />
 
         <div className="mt-6">
           <UserTable users={usersResponse.data as User[]} />
-          <Pagination page={1} totalPages={totalPages} />
+          <Pagination page={page} totalPages={totalPages} />
         </div>
       </div>
     </div>
