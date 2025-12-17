@@ -11,6 +11,8 @@ import { useSearchParams } from "react-router-dom";
 export default function App() {
   const [searchParams] = useSearchParams();
 
+  const role = searchParams.get("role") ?? "";
+
   const page = Number(searchParams.get("page") ?? 1);
   const limit = Number(searchParams.get("limit") ?? 20);
 
@@ -21,8 +23,8 @@ export default function App() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["users", page, limit],
-    queryFn: () => getUsers(page, limit),
+    queryKey: ["users", page, limit, role],
+    queryFn: () => getUsers(page, limit, role),
   });
 
   useEffect(() => {}, [limit]);
@@ -56,7 +58,7 @@ export default function App() {
 
         <div className="mt-6">
           <UserTable users={usersResponse.data as User[]} />
-          <Pagination page={page} totalPages={totalPages} />
+          <Pagination page={1} totalPages={0} />
         </div>
       </div>
     </div>
