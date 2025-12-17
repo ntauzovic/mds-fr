@@ -5,7 +5,8 @@ export const getUsers = async (
   limit: number,
   role?: string,
   countryId?: number,
-  sort?: string
+  sort?: string,
+  order?: string
 ) => {
   const params: Record<string, string | number> = {
     _page: page,
@@ -21,6 +22,9 @@ export const getUsers = async (
   }
   if (sort) {
     params["_sort"] = sort;
+  }
+  if (order) {
+    params["_order"] = order;
   }
 
   const response = await api.get("/users", { params });
