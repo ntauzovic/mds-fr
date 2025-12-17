@@ -19,6 +19,7 @@ export default function App() {
   const page = Number(searchParams.get("page") ?? 1);
   const limit = Number(searchParams.get("limit") ?? 20);
   const order = searchParams.get("order") ?? "";
+  const q = searchParams.get("q") ?? "";
 
   console.log({ limit });
 
@@ -27,8 +28,8 @@ export default function App() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["users", page, limit, role, countryId, sort, order],
-    queryFn: () => getUsers(page, limit, role, countryId, sort, order),
+    queryKey: ["users", page, limit, role, countryId, sort, order, q],
+    queryFn: () => getUsers(page, limit, role, countryId, sort, order, q),
   });
 
   useEffect(() => {}, [limit]);

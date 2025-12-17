@@ -54,7 +54,6 @@ export function UserTable({ users }: UserTableProps) {
             </tr>
           </thead>
 
-          {/* BODY */}
           <tbody className="divide-y divide-gray-100">
             {users.map((user) => (
               <tr className="transition-colors hover:bg-sky-50/70">

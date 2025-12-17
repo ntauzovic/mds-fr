@@ -13,6 +13,9 @@ export default function FilterBar() {
   const countryId = searchParams.get("countryId") ?? "";
   const sort = searchParams.get("sort") ?? "";
   const order = searchParams.get("order") ?? "";
+  const q = searchParams.get("q") ?? "";
+  console.log({ q });
+  console.log({ countryId });
 
   const { data: roles } = useQuery({
     queryKey: ["roles"],
@@ -42,21 +45,35 @@ export default function FilterBar() {
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
               Search
             </label>
-            <input
-              type="text"
-              placeholder="Name or email"
-              className="
-                w-full rounded-lg
-                border border-gray-300
-                bg-white
-                px-4 py-3
-                text-sm text-gray-900
-                placeholder:text-gray-400
-                focus:border-red-600
-                focus:ring-1 focus:ring-red-600
-                focus:outline-none
-              "
-            />
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+
+                const value = new FormData(e.currentTarget).get("q") as string;
+
+                setSearchParams((prev) => {
+                  const params = new URLSearchParams(prev);
+
+                  if (value?.trim()) {
+                    params.set("q", value.trim());
+                  } else {
+                    params.delete("q");
+                  }
+
+                  params.set("page", "1");
+                  return params;
+                });
+              }}
+            >
+              <input
+                name="q"
+                defaultValue={q}
+                type="text"
+                placeholder="Search"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm"
+              />
+            </form>
           </div>
 
           <div className="w-full sm:w-48">

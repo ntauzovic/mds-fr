@@ -6,7 +6,8 @@ export const getUsers = async (
   role?: string,
   countryId?: number,
   sort?: string,
-  order?: string
+  order?: string,
+  q?: string
 ) => {
   const params: Record<string, string | number> = {
     _page: page,
@@ -17,6 +18,9 @@ export const getUsers = async (
     params["role.name"] = role;
   }
 
+  if (q) {
+    params["q"] = q;
+  }
   if (countryId) {
     params["country.id"] = countryId;
   }
