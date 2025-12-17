@@ -1,6 +1,11 @@
 import api from ".";
 
-export const getUsers = async (page: number, limit: number, role?: string) => {
+export const getUsers = async (
+  page: number,
+  limit: number,
+  role?: string,
+  countryId?: number
+) => {
   const params: Record<string, string | number> = {
     _page: page,
     _limit: limit,
@@ -8,6 +13,10 @@ export const getUsers = async (page: number, limit: number, role?: string) => {
 
   if (role) {
     params["role.name"] = role;
+  }
+
+  if (countryId) {
+    params["country.id"] = countryId;
   }
 
   const response = await api.get("/users", { params });

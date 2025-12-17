@@ -1,18 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { getRoles } from "../../services/api/roles";
+import { useQuery } from "@tanstack/react-query";
 import type { Role } from "../../types/roles";
+import { getCountries } from "../../services/api/countries";
+import type { Country } from "../../types/counry";
 
 export default function FilterBar() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const limit = Number(searchParams.get("limit") ?? 20);
-
+  console.log({ searchParams });
   const role = searchParams.get("role") ?? "";
+  const countryId = searchParams.get("countryId") ?? "";
+
   const { data: roles } = useQuery({
     queryKey: ["roles"],
     queryFn: () => getRoles(),
   });
+  const { data: countries } = useQuery({
+    queryKey: ["countries"],
+    queryFn: () => getCountries(),
+  });
+  console.log({ countries, roles });
+
   return (
     <div
       className="
@@ -27,9 +37,7 @@ export default function FilterBar() {
   "
     >
       <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        {/* LEFT */}
         <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-end">
-          {/* Search */}
           <div className="w-full lg:max-w-lg">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
               Search
@@ -55,19 +63,40 @@ export default function FilterBar() {
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
               Country
             </label>
+
             <select
+              value={countryId}
+              onChange={(e) => {
+                const value = e.target.value;
+                const params = new URLSearchParams(searchParams);
+
+                if (value) {
+                  params.set("countryId", value);
+                } else {
+                  params.delete("countryId");
+                }
+
+                params.set("page", "1");
+                setSearchParams(params);
+              }}
               className="
-                w-full rounded-lg
-                border border-gray-300
-                bg-white
-                px-4 py-3
-                text-sm text-gray-900
-                focus:border-red-600
-                focus:ring-1 focus:ring-red-600
-                focus:outline-none
-              "
+      w-full rounded-lg
+      border border-gray-300
+      bg-white
+      px-4 py-3
+      text-sm text-gray-900
+      focus:border-red-600
+      focus:ring-1 focus:ring-red-600
+      focus:outline-none
+    "
             >
-              <option>All countries</option>
+              <option value="">All countries</option>
+
+              {countries?.map((c: Country) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -113,7 +142,6 @@ export default function FilterBar() {
           </div>
         </div>
 
-        {/* RIGHT */}
         <div className="flex items-end gap-4">
           <div className="w-28">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
@@ -129,6 +157,7 @@ export default function FilterBar() {
                   page: "1",
                   limit: newLimit,
                   role: role,
+                  countryId: countryId,
                 });
               }}
               className="w-full rounded-lg border border-gray-300 px-3 py-3 text-sm"
