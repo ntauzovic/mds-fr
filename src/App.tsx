@@ -12,6 +12,7 @@ export default function App() {
   const [searchParams] = useSearchParams();
 
   const role = searchParams.get("role") ?? "";
+  const countryId = Number(searchParams.get("countryId"));
 
   const page = Number(searchParams.get("page") ?? 1);
   const limit = Number(searchParams.get("limit") ?? 20);
@@ -23,8 +24,8 @@ export default function App() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["users", page, limit, role],
-    queryFn: () => getUsers(page, limit, role),
+    queryKey: ["users", page, limit, role, countryId],
+    queryFn: () => getUsers(page, limit, role, countryId),
   });
 
   useEffect(() => {}, [limit]);
@@ -58,7 +59,7 @@ export default function App() {
 
         <div className="mt-6">
           <UserTable users={usersResponse.data as User[]} />
-          <Pagination page={1} totalPages={0} />
+          <Pagination page={0} totalPages={0} />
         </div>
       </div>
     </div>
