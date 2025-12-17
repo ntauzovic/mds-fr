@@ -7,6 +7,7 @@ import FilterBar from "./components/Filter/FilterBar";
 import { Pagination } from "./components/Pagination/pagination";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   const [searchParams] = useSearchParams();
@@ -50,6 +51,7 @@ export default function App() {
   "
     >
       <h1 className="ml-3 text-2xl font-semibold text-white/90">Users</h1>
+      <Toaster position="top-right" />
 
       <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-black/10 to-transparent" />
 
