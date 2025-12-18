@@ -1,66 +1,55 @@
 import { useSearchParams } from "react-router-dom";
-import { getRoles } from "../../services/api/roles";
 import { useQuery } from "@tanstack/react-query";
-import type { Role } from "../../types/roles";
+import { Select } from "../Dropdown/Select";
+
+import { getRoles } from "../../services/api/roles";
 import { getCountries } from "../../services/api/countries";
+
+import type { Role } from "../../types/roles";
 import type { Country } from "../../types/counry";
+
+import {
+  sortOptions,
+  orderOptions,
+  rowsOptions,
+} from "../../types/selectOptions";
 
 export default function FilterBar() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const limit = Number(searchParams.get("limit") ?? 20);
+  const q = searchParams.get("q") ?? "";
   const role = searchParams.get("role") ?? "";
   const countryId = searchParams.get("countryId") ?? "";
   const sort = searchParams.get("sort") ?? "";
   const order = searchParams.get("order") ?? "";
-  const q = searchParams.get("q") ?? "";
-  console.log({ q });
-  console.log({ countryId });
+  const limit = Number(searchParams.get("limit") ?? 20);
 
   const { data: roles } = useQuery({
     queryKey: ["roles"],
-    queryFn: () => getRoles(),
+    queryFn: getRoles,
   });
+
   const { data: countries } = useQuery({
     queryKey: ["countries"],
-    queryFn: () => getCountries(),
+    queryFn: getCountries,
   });
 
   return (
-    <div
-      className="
-    mb-6
-    w-full
-    rounded-2xl
-    bg-white/95
-    backdrop-blur
-    p-6
-    shadow-[0_20px_40px_-15px_rgba(0,0,0,0.25)]
-    border border-white/60
-  "
-    >
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-end">
-          <div className="w-full lg:max-w-lg">
+    <div className="mb-6 w-full rounded-2xl bg-white/95 p-6 shadow border border-white/60">
+      <div className="flex flex-wrap items-end gap-4">
+        <div className="flex flex-wrap items-end gap-x-4 gap-y-4 flex-1">
+          <div className="max-w-[310px] w-full ">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
               Search
             </label>
-
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-
                 const value = new FormData(e.currentTarget).get("q") as string;
 
                 setSearchParams((prev) => {
                   const params = new URLSearchParams(prev);
-
-                  if (value?.trim()) {
-                    params.set("q", value.trim());
-                  } else {
-                    params.delete("q");
-                  }
-
+                  params.set("q", value.trim());
                   params.set("page", "1");
                   return params;
                 });
@@ -69,193 +58,108 @@ export default function FilterBar() {
               <input
                 name="q"
                 defaultValue={q}
-                type="text"
-                placeholder="Search"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm"
+                placeholder="Search users..."
+                className="w-full rounded-lg border bg-white border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:ring-1 focus:ring-red-600 focus:outline-none"
               />
             </form>
           </div>
 
-          <div className="w-full sm:w-48">
+          <div className="max-w-[220px] w-full">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
               Country
             </label>
-
-            <select
+            <Select
               value={countryId}
-              onChange={(e) => {
-                const value = e.target.value;
+              placeholder="All countries"
+              options={[
+                { label: "All countries", value: "" },
+                ...(countries ?? []).map((c: Country) => ({
+                  label: c.name,
+                  value: c.id,
+                })),
+              ]}
+              onChange={(value) => {
                 const params = new URLSearchParams(searchParams);
-
-                if (value) {
-                  params.set("countryId", value);
-                } else {
-                  params.delete("countryId");
-                }
-
+                params.set("countryId", String(value));
                 params.set("page", "1");
                 setSearchParams(params);
               }}
-              className="
-      w-full rounded-lg
-      border border-gray-300
-      bg-white
-      px-4 py-3
-      text-sm text-gray-900
-      focus:border-red-600
-      focus:ring-1 focus:ring-red-600
-      focus:outline-none
-    "
-            >
-              <option value="">All countries</option>
-
-              {countries?.map((c: Country) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
+            />
           </div>
 
-          <div className="w-full sm:w-48">
+          <div className="max-w-[220px] w-full">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
-              Roles
+              Role
             </label>
-            <select
+            <Select
               value={role}
-              onChange={(e) => {
-                const value = e.target.value;
-
+              placeholder="All roles"
+              options={[
+                { label: "All roles", value: "" },
+                ...(roles ?? []).map((r: Role) => ({
+                  label: r.name,
+                  value: r.name,
+                })),
+              ]}
+              onChange={(value) => {
                 const params = new URLSearchParams(searchParams);
-
-                if (value) {
-                  params.set("role", value);
-                } else {
-                  params.delete("role");
-                }
-
+                params.set("role", String(value));
                 params.set("page", "1");
                 setSearchParams(params);
               }}
-              className="
-    w-full rounded-lg
-    border border-gray-300
-    bg-white
-    px-4 py-3
-    text-sm text-gray-900
-    focus:border-red-600
-    focus:ring-1 focus:ring-red-600
-    focus:outline-none
-  "
-            >
-              <option value="">All roles</option>
-              {roles?.map((role: Role) => (
-                <option key={role.id} value={role.name}>
-                  {role.name}
-                </option>
-              ))}{" "}
-            </select>
+            />
           </div>
-          <div className="w-full sm:w-48">
-            <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
-              Sort By Field
-            </label>
 
-            <select
+          <div className="max-w-[220px] w-full">
+            <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
+              Sort by
+            </label>
+            <Select
               value={sort}
-              onChange={(e) => {
-                const value = e.target.value;
+              placeholder="Default"
+              options={sortOptions}
+              onChange={(value) => {
                 const params = new URLSearchParams(searchParams);
-
-                if (value) {
-                  params.set("sort", value);
-                } else {
-                  params.delete("sort");
-                }
-
+                params.set("sort", String(value));
                 params.set("page", "1");
                 setSearchParams(params);
               }}
-              className="
-      w-full rounded-lg
-      border border-gray-300
-      bg-white
-      px-4 py-3
-      text-sm text-gray-900
-      focus:border-red-600
-      focus:ring-1 focus:ring-red-600
-      focus:outline-none
-    "
-            >
-              <option value="">Default</option>
-              <option value="lastName">Last name</option>
-              <option value="firstName">First name</option>
-              <option value="email">Email</option>
-            </select>
+            />
           </div>
-          <div className="w-full sm:w-48">
+
+          <div className="max-w-[220px] w-full">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
-              Sort By Field
+              Order
             </label>
-
-            <select
+            <Select
               value={order}
-              onChange={(e) => {
-                const value = e.target.value;
+              placeholder="Default"
+              options={orderOptions}
+              onChange={(value) => {
                 const params = new URLSearchParams(searchParams);
-
-                if (value) {
-                  params.set("order", value);
-                } else {
-                  params.delete("order");
-                }
-
+                params.set("order", String(value));
                 params.set("page", "1");
                 setSearchParams(params);
               }}
-              className="
-      w-full rounded-lg
-      border border-gray-300
-      bg-white
-      px-4 py-3
-      text-sm text-gray-900
-      focus:border-red-600
-      focus:ring-1 focus:ring-red-600
-      focus:outline-none
-    "
-            >
-              <option value="asc">ASC</option>
-              <option value="desc">DESC</option>
-            </select>
+            />
           </div>
         </div>
 
-        <div className="flex items-end gap-4">
-          <div className="w-28">
-            <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
-              Rows
-            </label>
-
-            <select
-              value={limit}
-              onChange={(e) => {
-                const newLimit = e.target.value;
-
-                setSearchParams({
-                  page: "1",
-                  limit: newLimit,
-                  role: role,
-                  countryId: countryId,
-                });
-              }}
-              className="w-full rounded-lg border border-gray-300 px-3 py-3 text-sm"
-            >
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-            </select>
-          </div>
+        <div className=" max-w-[100px] w-full">
+          <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
+            Rows
+          </label>
+          <Select
+            value={limit}
+            placeholder="20"
+            options={rowsOptions}
+            onChange={(value) => {
+              const params = new URLSearchParams(searchParams);
+              params.set("limit", String(value));
+              params.set("page", "1");
+              setSearchParams(params);
+            }}
+          />
         </div>
       </div>
     </div>
