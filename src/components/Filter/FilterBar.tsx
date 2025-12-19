@@ -8,9 +8,10 @@ import { getCountries } from "../../services/api/countries";
 import type { Role } from "../../types/roles";
 import type { Country } from "../../types/counry";
 
+import { useLanguage } from "../../hooks/useLanguage";
 import {
-  sortOptions,
-  orderOptions,
+  getOrderOptions,
+  getSortOptions,
   rowsOptions,
 } from "../../types/selectOptions";
 
@@ -23,6 +24,10 @@ export default function FilterBar() {
   const sort = searchParams.get("sort") ?? "";
   const order = searchParams.get("order") ?? "";
   const limit = Number(searchParams.get("limit") ?? 20);
+
+  const { t } = useLanguage();
+  const sortOptions = getSortOptions(t);
+  const orderOptions = getOrderOptions(t);
 
   const { data: roles } = useQuery({
     queryKey: ["roles"],
@@ -40,7 +45,7 @@ export default function FilterBar() {
         <div className="flex flex-wrap items-end gap-x-4 gap-y-4 flex-1">
           <div className="max-w-[310px] w-full ">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
-              Search
+              {t("filter.search")}
             </label>
             <form
               onSubmit={(e) => {
@@ -66,13 +71,13 @@ export default function FilterBar() {
 
           <div className="max-w-[220px] w-full">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
-              Country
+              {t("filter.country")}
             </label>
             <Select
               value={countryId}
-              placeholder="All countries"
+              placeholder={t("select.option.allCountry")}
               options={[
-                { label: "All countries", value: "" },
+                { label: t("select.option.allCountry"), value: "" },
                 ...(countries ?? []).map((c: Country) => ({
                   label: c.name,
                   value: c.id,
@@ -89,13 +94,13 @@ export default function FilterBar() {
 
           <div className="max-w-[220px] w-full">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
-              Role
+              {t("filter.role")}
             </label>
             <Select
               value={role}
-              placeholder="All roles"
+              placeholder={t("select.option.allRoles")}
               options={[
-                { label: "All roles", value: "" },
+                { label: t("select.option.allRoles"), value: "" },
                 ...(roles ?? []).map((r: Role) => ({
                   label: r.name,
                   value: r.name,
@@ -112,7 +117,7 @@ export default function FilterBar() {
 
           <div className="max-w-[220px] w-full">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
-              Sort by
+              {t("filter.sort")}
             </label>
             <Select
               value={sort}
@@ -129,7 +134,7 @@ export default function FilterBar() {
 
           <div className="max-w-[220px] w-full">
             <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
-              Order
+              {t("filter.order")}
             </label>
             <Select
               value={order}
@@ -145,9 +150,9 @@ export default function FilterBar() {
           </div>
         </div>
 
-        <div className=" max-w-[100px] w-full">
+        <div className=" max-w-[120px] w-full">
           <label className="mb-2 block text-xs font-semibold uppercase text-gray-600">
-            Rows
+            {t("filter.rowsPerPage")}
           </label>
           <Select
             value={limit}

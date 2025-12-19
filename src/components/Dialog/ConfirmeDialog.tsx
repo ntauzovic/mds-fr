@@ -2,21 +2,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ConfirmDialogProps } from "../../types/confirmDialogProps";
 import { deleteUser } from "../../services/api/users";
 import toast from "react-hot-toast";
+import { useLanguage } from "../../hooks/useLanguage";
 
 export const ConfirmDialog = ({ userId, onCancel }: ConfirmDialogProps) => {
   const queryClient = useQueryClient();
+  const { t } = useLanguage();
 
   const deleteUserMutation = useMutation({
     mutationFn: deleteUser,
     onSuccess: () => {
-      toast.success("User delete successfully");
+      toast.success(t("toast.user.delete.success"));
       queryClient.invalidateQueries({ queryKey: ["users"] });
       if (onCancel) {
         onCancel();
       }
     },
     onError: () => {
-      toast.error("Failed to delete user");
+      toast.error(t("toast.user.delete.error"));
     },
   });
 
@@ -27,12 +29,13 @@ export const ConfirmDialog = ({ userId, onCancel }: ConfirmDialogProps) => {
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-600">
             ⚠️
           </div>
-          <h3 className="text-lg font-semibold text-gray-900">Delete user</h3>
+          <h3 className="text-lg font-semibold text-gray-900">
+            {t("dialog.delete.title")}
+          </h3>
         </div>
 
         <p className="mt-4 text-sm text-gray-600">
-          Are you sure you want to delete this user? This action cannot be
-          undone.
+          {t("dialog.delete.confirmation")}
         </p>
 
         <div className="mt-6 flex justify-end gap-3">
@@ -43,10 +46,10 @@ export const ConfirmDialog = ({ userId, onCancel }: ConfirmDialogProps) => {
               px-4 py-2
               text-sm font-medium
               text-gray-700
-              hover:bg-gray-100
+              bg-gray-100
             "
           >
-            Cancel
+            {t("dialog.cancel.btn")}
           </button>
 
           <button
@@ -62,7 +65,7 @@ export const ConfirmDialog = ({ userId, onCancel }: ConfirmDialogProps) => {
               disabled:opacity-50
             "
           >
-            {deleteUserMutation.isPending ? "Deleting..." : "Delete"}
+            {t("dialog.delete.btn")}
           </button>
         </div>
       </div>
