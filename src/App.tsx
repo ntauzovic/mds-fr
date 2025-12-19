@@ -8,6 +8,7 @@ import { Pagination } from "./components/Pagination/pagination";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import LanguageToggle from "./components/Languages/LanguageToggle";
 
 export default function App() {
   const [searchParams] = useSearchParams();
@@ -51,7 +52,14 @@ export default function App() {
     p-8
   "
     >
-      <h1 className="ml-3 text-2xl font-semibold text-white/90">Users</h1>
+      <div className="flex items-center justify-between pb-4">
+        <h1 className="ml-3 text-2xl font-semibold text-white/90">Users</h1>
+
+        <div className="relative z-20">
+          <LanguageToggle />
+        </div>
+      </div>
+
       <Toaster position="top-right" />
 
       <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-black/10 to-transparent" />

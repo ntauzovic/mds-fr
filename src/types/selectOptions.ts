@@ -1,13 +1,14 @@
-export const sortOptions = [
-  { label: "Default", value: "" },
-  { label: "Last name", value: "lastName" },
-  { label: "First name", value: "firstName" },
-  { label: "Email", value: "email" },
+export const getSortOptions = (t: (key: string) => string) => [
+  { label: t("select.option.sort"), value: "" },
+  { label: t("select.option.sort.firtsName"), value: "lastName" },
+  { label: t("select.option.sort.lastName"), value: "firstName" },
+  { label: t("select.option.sort.email"), value: "email" },
 ];
-export const orderOptions = [
-  { label: "Default", value: "" },
-  { label: "ASC", value: "asc" },
-  { label: "DESC", value: "desc" },
+
+export const getOrderOptions = (t: (key: string) => string) => [
+  { label: t("select.option.order"), value: "" },
+  { label: t("select.option.order.asc"), value: "asc" },
+  { label: t("select.option.order.desc"), value: "desc" },
 ];
 
 export const rowsOptions = [
