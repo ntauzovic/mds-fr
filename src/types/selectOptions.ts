@@ -17,3 +17,15 @@ export const rowsOptions = [
   { label: "25", value: "25" },
   { label: "50", value: "50" },
 ];
+
+interface Option {
+  label: string;
+  value: string | number;
+}
+
+export interface SelectProps {
+  value?: string | number;
+  options: Option[];
+  placeholder?: string;
+  onChange: (value: string | number) => void;
+}

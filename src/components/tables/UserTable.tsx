@@ -2,6 +2,7 @@ import React from "react";
 import type { User } from "../../types/user";
 import { ConfirmDialog } from "../Dialog/ConfirmeDialog";
 import { useLanguage } from "../../hooks/useLanguage";
+import { USER_TABLE_HEADERS } from "../../constants/tableHeaders";
 
 interface UserTableProps {
   users: User[];
@@ -19,14 +20,6 @@ export function UserTable({ users }: UserTableProps) {
     setSelectedUserId(userId);
     setShowDialog(true);
   };
-  const headers = [
-    "table.header.firstName",
-    "table.header.lastName",
-    "table.header.email",
-    "table.header.country",
-    "table.header.role",
-    "table.header.actions",
-  ];
 
   return (
     <div
@@ -42,7 +35,7 @@ export function UserTable({ users }: UserTableProps) {
         <table className=" w-full border-collapse">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
-              {headers.map((key) => (
+              {USER_TABLE_HEADERS.map((key) => (
                 <th
                   key={key}
                   className="
