@@ -1,73 +1,98 @@
-# React + TypeScript + Vite
+# MDS Frontend Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This is a frontend application built with React and TypeScript.
+The project focuses on clean architecture, maintainable code, and a solid development workflow.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Core Features
 
-## React Compiler
+- User list with filtering, sorting, and pagination
+- Multi-language support (internationalization)
+- Persistent language selection
+- Clean and reusable UI components
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Internationalization (i18n)
 
-## Expanding the ESLint configuration
+The application supports multiple languages.
+All UI text is managed through translation files to avoid hardcoded strings.
+Users can switch languages using the language toggle in the header.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Development Workflow
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The project includes tooling to ensure code quality and consistency:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **GitHub Actions CI**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+  - Linting
+  - Type checking
+  - Production build
+
+- **Husky Hooks**
+  - `commit-msg`: enforces conventional commit messages using commitlint
+  - `pre-commit`: runs ESLint before commits
+
+## Project Structure
+
+```text
+.github/
+└── workflows/
+└── pipeline.yml # GitHub Actions CI pipeline
+
+.husky/
+├── commit-msg # Commit message validation (commitlint)
+└── pre-commit # Pre-commit ESLint check
+
+src/
+├── components/ # Reusable UI components
+├── hooks/ # Custom React hooks
+├── services/ # API and data-fetching logic
+├── i18n/ # Translation files and language configuration
+├── types/ # Shared TypeScript types
+├── providers/ # Application-level providers
+├── App.tsx # Root application component
+├── index.css # Global styles
+└── main.tsx # Application entry point
+
+.nvmrc # Node.js version definition
+commitlint.config.cjs # Commitlint configuration
+tailwind.config.js # Tailwind CSS configuration
+eslint.config.js # ESLint configuration
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Backend Communication & State Management
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The application communicates with the backend API using **Axios**.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### API Layer
+
+All backend requests are centralized inside the `services/` directory.
+This approach keeps API logic separated from UI components and improves maintainability and scalability.
+
+### Global State & Data Fetching
+
+For server state management and data fetching, the application uses **TanStack Query (React Query)**.
+
+TanStack Query is responsible for:
+
+- Fetching data from the backend
+- Caching server responses
+- Handling loading and error states
+- Keeping data in sync across the application
+
+This avoids manual state handling and replaces the need for classic `fetch` logic inside components.
+
+### Backend URL Configuration
+
+During development, the backend server runs on a separate port.
+
+The frontend is configured to communicate with the backend running on:
+http://localhost:3001
+
+The port was adjusted due to local development constraints on macOS.
+The backend port can be changed freely depending on the local environment.
+
+Updating the backend URL ensured stable communication between the frontend and backend during development.
+
+All API requests are routed through this base URL to maintain consistency across the application.
