@@ -24,30 +24,21 @@ export function useLanguage() {
     staleTime: Infinity,
   });
 
-  console.log("📌 [useLanguage] lang =", lang);
-
-  // sync <html lang="">
   useEffect(() => {
     if (typeof window !== "undefined") {
-      console.log("🌐 [useEffect] Setting <html lang> to:", lang);
       document.documentElement.setAttribute("lang", lang || "en");
     }
   }, [lang]);
 
   const setLang = (newLang: Lang) => {
-    console.log("📝 [setLang] called with:", newLang);
-
     if (typeof window !== "undefined") {
-      console.log("💾 [localStorage] saving", newLang);
       localStorage.setItem(LANG_KEY, newLang);
     }
 
-    console.log("🔄 [ReactQuery] updating cache");
     queryClient.setQueryData([LANG_KEY], newLang);
   };
 
   const t = (key: string): string => {
-    console.log("🔤 [translate] lang:", lang, "key:", key);
     const dictionary = languages[lang || "en"] as Record<string, string>;
     return dictionary[key] ?? key;
   };
