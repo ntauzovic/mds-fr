@@ -37,27 +37,28 @@ The project includes tooling to ensure code quality and consistency:
 ```text
 .github/
 └── workflows/
-└── pipeline.yml # GitHub Actions CI pipeline
+    └── pipeline.yml          # GitHub Actions CI pipeline
 
 .husky/
-├── commit-msg # Commit message validation (commitlint)
-└── pre-commit # Pre-commit ESLint check
+├── commit-msg                # Commit message validation (commitlint)
+└── pre-commit                # Pre-commit ESLint check
 
 src/
-├── components/ # Reusable UI components
-├── hooks/ # Custom React hooks
-├── services/ # API and data-fetching logic
-├── i18n/ # Translation files and language configuration
-├── types/ # Shared TypeScript types
-├── providers/ # Application-level providers
-├── App.tsx # Root application component
-├── index.css # Global styles
-└── main.tsx # Application entry point
+├── components/               # Reusable UI components
+├── hooks/                    # Custom React hooks
+├── services/                 # API and data-fetching logic
+├── i18n/                     # Translation files and language configuration
+├── types/                    # Shared TypeScript types
+├── constants/                # UI configuration and shared constants
+├── providers/                # Application-level providers
+├── App.tsx                   # Root application component
+├── index.css                 # Global styles
+└── main.tsx                  # Application entry point
 
-.nvmrc # Node.js version definition
-commitlint.config.cjs # Commitlint configuration
-tailwind.config.js # Tailwind CSS configuration
-eslint.config.js # ESLint configuration
+.nvmrc                         # Node.js version definition
+commitlint.config.cjs          # Commitlint configuration
+tailwind.config.js             # Tailwind CSS configuration
+eslint.config.js               # ESLint configuration
 
 ```
 

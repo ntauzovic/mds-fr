@@ -1,17 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "../Icons/Icon";
-
-interface Option {
-  label: string;
-  value: string | number;
-}
-
-interface SelectProps {
-  value?: string | number;
-  options: Option[];
-  placeholder?: string;
-  onChange: (value: string | number) => void;
-}
+import type { SelectProps } from "../../types/selectOptions";
 
 export function Select({
   value,
