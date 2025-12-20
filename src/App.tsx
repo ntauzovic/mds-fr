@@ -21,8 +21,6 @@ export default function App() {
   const order = searchParams.get("order") ?? "";
   const q = searchParams.get("q") ?? "";
 
-  console.log({ limit });
-
   const {
     data: usersResponse,
     isLoading,
@@ -33,8 +31,6 @@ export default function App() {
   });
 
   useEffect(() => {}, [limit]);
-
-  console.log({ usersResponse });
 
   if (isLoading) return <p className="p-8 text-white">Loading...</p>;
   if (error) return <p className="p-8 text-white">Error loading users</p>;
