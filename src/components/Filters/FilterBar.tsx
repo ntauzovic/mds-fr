@@ -96,7 +96,7 @@ export default function FilterBar() {
         },
         ...(countries ?? []).map((c: Country) => ({
           label: c.name,
-          value: c.name,
+          value: c.id,
         })),
       ];
 
