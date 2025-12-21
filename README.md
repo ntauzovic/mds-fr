@@ -5,6 +5,29 @@
 This is a frontend application built with React and TypeScript.
 The project focuses on clean architecture, maintainable code, and a solid development workflow.
 
+## Getting Started
+
+### Prerequisites
+
+- Node.js (version defined in `.nvmrc`)
+- npm (or compatible package manager)
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Run the Application
+
+```bash
+npm run dev
+```
+
+The application will be available at:
+
+http://localhost:3000
+
 ## Core Features
 
 - User list with filtering, sorting, and pagination
@@ -73,7 +96,7 @@ to ensure a clear and predictable user experience.
 
 ### Loading States
 
-- While data is being fetched from the backend, the app shows a spinner to indicate progres.
+- While data is being fetched from the backend, the app shows a spinner to indicate progress.
 
 ### Empty States
 
