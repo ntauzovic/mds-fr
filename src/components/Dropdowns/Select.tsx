@@ -33,7 +33,7 @@ export function Select({
         <Icon
           name="angle-down"
           className="
-    pointer-events-none
+            pointer-events-none
     absolute
     right-0.5
     top-7.5
@@ -56,7 +56,8 @@ export function Select({
             <button
               key={option.value}
               type="button"
-              onClick={() => {
+              onMouseDown={(e) => {
+                e.preventDefault();
                 onChange(option.value);
                 setOpen(false);
               }}

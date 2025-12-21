@@ -5,7 +5,7 @@ import { useLanguage } from "../../hooks/useLanguage";
 import { USER_TABLE_HEADERS } from "../../constants/tableHeaders";
 
 interface UserTableProps {
-  users: User[];
+  users?: User[];
 }
 
 export default function UserTable({ users }: UserTableProps) {
@@ -52,40 +52,61 @@ export default function UserTable({ users }: UserTableProps) {
           </thead>
 
           <tbody className="divide-y divide-gray-100">
-            {users.map((user) => (
-              <tr className="transition-colors hover:bg-sky-50/70">
-                <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                  {user.firstName}
-                </td>
-                <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                  {user.lastName}
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-600">
-                  {user.email}
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-700">
-                  {user.country?.name ?? "-"}
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-700">
-                  {user.role?.name ?? "-"}
-                </td>
-                <td className="px-0.5 py-3 text-sm text-gray-700">
-                  <button
-                    onClick={() => openConfirmDialog(user.id)}
-                    className="
-                      rounded-lg
-                      bg-red-600 w-[120px] h-[30px]
-                      text-sm font-medium
-                      text-white
-                      hover:bg-red-700
-                      focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
-                    "
-                  >
-                    {t("table.delete.btn")}
-                  </button>
+            {!users || users.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={USER_TABLE_HEADERS.length}
+                  className="px-6 py-16 text-center"
+                >
+                  <div className="flex flex-col items-center gap-2">
+                    <p className="text-lg font-semibold text-gray-700">
+                      {t("table.noData.header")}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {t("table.noData.text")}
+                    </p>
+                  </div>
                 </td>
               </tr>
-            ))}
+            ) : (
+              users.map((user) => (
+                <tr
+                  key={user.id}
+                  className="transition-colors hover:bg-sky-50/70"
+                >
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                    {user.firstName}
+                  </td>
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                    {user.lastName}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-600">
+                    {user.email}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-700">
+                    {user.country?.name ?? "-"}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-700">
+                    {user.role?.name ?? "-"}
+                  </td>
+                  <td className="px-0.5 py-3 text-sm text-gray-700">
+                    <button
+                      onClick={() => openConfirmDialog(user.id)}
+                      className="
+              rounded-lg
+              bg-red-600 w-[120px] h-[30px]
+              text-sm font-medium
+              text-white
+              hover:bg-red-700
+              focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
+            "
+                    >
+                      {t("table.delete.btn")}
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
