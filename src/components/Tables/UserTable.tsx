@@ -3,12 +3,14 @@ import type { User } from "../../types/user";
 import { ConfirmDialog } from "../Dialogs/ConfirmeDialog";
 import { useLanguage } from "../../hooks/useLanguage";
 import { USER_TABLE_HEADERS } from "../../constants/tableHeaders";
+import Spinner from "../Spinner/Spinner";
 
 interface UserTableProps {
   users?: User[];
+  isLoading?: boolean;
 }
 
-export default function UserTable({ users }: UserTableProps) {
+export default function UserTable({ users, isLoading }: UserTableProps) {
   const { t } = useLanguage();
 
   const [showDialog, setShowDialog] = React.useState(false);
@@ -52,11 +54,20 @@ export default function UserTable({ users }: UserTableProps) {
           </thead>
 
           <tbody className="divide-y divide-gray-100">
-            {!users || users.length === 0 ? (
+            {isLoading ? (
               <tr>
                 <td
                   colSpan={USER_TABLE_HEADERS.length}
-                  className="px-6 py-16 text-center"
+                  className="py-16 text-center text-sm text-gray-500"
+                >
+                  <Spinner />
+                </td>
+              </tr>
+            ) : !users || users.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={USER_TABLE_HEADERS.length}
+                  className="py-16 text-center"
                 >
                   <div className="flex flex-col items-center gap-2">
                     <p className="text-lg font-semibold text-gray-700">

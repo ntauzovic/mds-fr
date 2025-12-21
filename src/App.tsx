@@ -62,7 +62,10 @@ export default function App() {
         <FilterBar />
 
         <div className="mt-6">
-          <UserTable users={usersResponse?.data as User[]} />
+          <UserTable
+            users={usersResponse?.data as User[]}
+            isLoading={isLoading}
+          />
 
           {usersResponse && (
             <Pagination totalUsers={usersResponse.total} rows={limit} />
