@@ -28,5 +28,6 @@
   "toast.user.delete.success": "Korisnik je uspešno obrisan.",
   "toast.user.delete.error": "Greška prilikom brisanja korisnika. Molimo pokušajte ponovo.",
   "table.noData.header": "Nema pronađenih korisnika.",
+  "spinner": "Učitavanje korisnika...",
   "table.noData.text": "Pokušajte da prilagodite filtere ili kriterijume pretrage."
 }

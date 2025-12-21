@@ -28,5 +28,6 @@
   "toast.user.delete.success": "Successfully deleted user.",
   "toast.user.delete.error": "Error deleting user. Please try again.",
   "table.noData.header": "No users found.",
+  "spinner": "Loading user...",
   "table.noData.text": "Try adjusting your filters or search criteria."
 }
