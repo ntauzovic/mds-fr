@@ -74,13 +74,13 @@ export default function FilterBar() {
               {t("filter.country")}
             </label>
             <Select
-              value={countryId}
+              value={countryId ? String(countryId) : ""}
               placeholder={t("select.option.allCountry")}
               options={[
                 { label: t("select.option.allCountry"), value: "" },
                 ...(countries ?? []).map((c: Country) => ({
                   label: c.name,
-                  value: c.id,
+                  value: String(c.id),
                 })),
               ]}
               onChange={(value) => {
@@ -144,6 +144,9 @@ export default function FilterBar() {
                 const params = new URLSearchParams(searchParams);
                 params.set("order", String(value));
                 params.set("page", "1");
+                if (sort === "") {
+                  params.set("sort", "firstName");
+                }
                 setSearchParams(params);
               }}
             />
@@ -156,7 +159,7 @@ export default function FilterBar() {
           </label>
           <Select
             value={limit}
-            placeholder="20"
+            placeholder={limit.toString()}
             options={rowsOptions}
             onChange={(value) => {
               const params = new URLSearchParams(searchParams);

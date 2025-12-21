@@ -20,7 +20,7 @@
   "select.option.allRoles": "All Roles",
   "select.option.sort": "Default",
   "select.option.order": "Default",
-  "select.option.sort.firtsName": "First Name",
+  "select.option.sort.firstName": "First Name",
   "select.option.sort.lastName": "Last Name",
   "select.option.sort.email": "Email",
   "select.option.order.desc": "DESC",

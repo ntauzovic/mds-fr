@@ -1,7 +1,7 @@
 export const getSortOptions = (t: (key: string) => string) => [
   { label: t("select.option.sort"), value: "" },
-  { label: t("select.option.sort.firtsName"), value: "lastName" },
-  { label: t("select.option.sort.lastName"), value: "firstName" },
+  { label: t("select.option.sort.firstName"), value: "firstName" },
+  { label: t("select.option.sort.lastName"), value: "lastName" },
   { label: t("select.option.sort.email"), value: "email" },
 ];
 
