@@ -1,6 +1,6 @@
 import React from "react";
 import type { User } from "../../types/user";
-import { ConfirmDialog } from "../Dialog/ConfirmeDialog";
+import { ConfirmDialog } from "../Dialogs/ConfirmeDialog";
 import { useLanguage } from "../../hooks/useLanguage";
 import { USER_TABLE_HEADERS } from "../../constants/tableHeaders";
 

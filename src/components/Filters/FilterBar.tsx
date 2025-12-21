@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Select } from "../Dropdown/Select";
+import { Select } from "../Dropdowns/Select";
 
 import { getRoles } from "../../services/api/roles";
 import { getCountries } from "../../services/api/countries";
