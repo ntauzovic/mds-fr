@@ -28,11 +28,41 @@ export default function FilterBar() {
   const { t } = useLanguage();
   const sortOptions = getSortOptions(t);
   const orderOptions = getOrderOptions(t);
-
-  const { data: roles } = useQuery({
+  const {
+    data: roles,
+    isLoading: rolesLoading,
+    isError: rolesError,
+  } = useQuery({
     queryKey: ["roles"],
     queryFn: getRoles,
   });
+
+  const rolesOptions = rolesLoading
+    ? [
+        {
+          label: t("common.loading"),
+          value: "__loading__",
+          disabled: true,
+        },
+      ]
+    : rolesError
+    ? [
+        {
+          label: t("common.error"),
+          value: "__error__",
+          disabled: true,
+        },
+      ]
+    : [
+        {
+          label: t("select.option.allRoles"),
+          value: "",
+        },
+        ...(roles ?? []).map((r: Role) => ({
+          label: r.name,
+          value: r.name,
+        })),
+      ];
 
   const { data: countries } = useQuery({
     queryKey: ["countries"],
@@ -101,14 +131,10 @@ export default function FilterBar() {
             <Select
               value={role}
               placeholder={t("select.option.allRoles")}
-              options={[
-                { label: t("select.option.allRoles"), value: "" },
-                ...(roles ?? []).map((r: Role) => ({
-                  label: r.name,
-                  value: r.name,
-                })),
-              ]}
+              options={rolesOptions}
               onChange={(value) => {
+                if (rolesLoading || rolesError) return;
+
                 const params = new URLSearchParams(searchParams);
                 params.set("role", String(value));
                 params.set("page", "1");
