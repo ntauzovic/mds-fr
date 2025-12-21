@@ -6,8 +6,8 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import LanguageToggle from "./components/Languages/LanguageToggle";
-import UserTable from "./components/Tables/UserTable";
 import Pagination from "./components/Pagination/Pagination";
+import UserTable from "./components/tables__tmp/UserTable";
 
 export default function App() {
   const [searchParams] = useSearchParams();
