@@ -66,6 +66,23 @@ eslint.config.js               # ESLint configuration
 
 The application communicates with the backend API using **Axios**.
 
+## User Experience & Error Handling
+
+The application includes explicit handling of loading, empty, and error states
+to ensure a clear and predictable user experience.
+
+### Loading States
+
+- While data is being fetched from the backend, the app shows a spinner to indicate progres.
+
+### Empty States
+
+- If no users match the current filters, the table shows a clear “No users found” message.
+
+### Error Handling
+
+- If a request fails, the app displays a user-friendly error message instead of showing an empty UI.
+
 ### API Layer
 
 All backend requests are centralized inside the `services/` directory.
