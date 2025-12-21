@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Icon } from "../Icons/Icon";
 import type { SelectProps } from "../../types/selectOptions";
 
@@ -12,16 +12,6 @@ export function Select({
   const ref = useRef<HTMLDivElement>(null);
 
   const selected = options.find((o) => o.value === value);
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
 
   return (
     <div ref={ref} className="relative w-full">

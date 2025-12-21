@@ -20,7 +20,7 @@
   "select.option.allRoles": "Sve uloge",
   "select.option.sort": "Podrazumevano",
   "select.option.order": "Podrazumevano",
-  "select.option.sort.firtsName": "Ime",
+  "select.option.sort.firstName": "Ime",
   "select.option.sort.lastName": "Prezime",
   "select.option.sort.email": "Email",
   "select.option.order.desc": "Opadajuće",

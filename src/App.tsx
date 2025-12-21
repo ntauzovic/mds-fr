@@ -3,11 +3,11 @@ import { getUsers } from "./services/api/users";
 import type { User } from "./types/user";
 import { UserTable } from "./components/tables/UserTable";
 import FilterBar from "./components/Filter/FilterBar";
-import { Pagination } from "./components/Pagination/pagination";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import LanguageToggle from "./components/Languages/LanguageToggle";
+import { Pagination } from "./components/Pagination/pagination";
 
 export default function App() {
   const [searchParams] = useSearchParams();
