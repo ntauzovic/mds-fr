@@ -6,7 +6,7 @@ import { getRoles } from "../../services/api/roles";
 import { getCountries } from "../../services/api/countries";
 
 import type { Role } from "../../types/roles";
-import type { Country } from "../../types/counry";
+import type { Country } from "../../types/country";
 
 import { useLanguage } from "../../hooks/useLanguage";
 import {
