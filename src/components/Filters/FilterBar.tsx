@@ -64,10 +64,41 @@ export default function FilterBar() {
         })),
       ];
 
-  const { data: countries } = useQuery({
+  const {
+    data: countries,
+    isLoading: countriesLoading,
+    isError: countriesError,
+  } = useQuery({
     queryKey: ["countries"],
     queryFn: getCountries,
   });
+
+  const countriesOptions = countriesLoading
+    ? [
+        {
+          label: t("common.loading"),
+          value: "__loading__",
+          disabled: true,
+        },
+      ]
+    : countriesError
+    ? [
+        {
+          label: t("common.error"),
+          value: "__error__",
+          disabled: true,
+        },
+      ]
+    : [
+        {
+          label: t("select.option.allCountry"),
+          value: "",
+        },
+        ...(countries ?? []).map((c: Country) => ({
+          label: c.name,
+          value: c.name,
+        })),
+      ];
 
   return (
     <div className="mb-6 w-full rounded-2xl bg-white/95 p-6 shadow border border-white/60">
@@ -106,18 +137,12 @@ export default function FilterBar() {
             <Select
               value={countryId ? String(countryId) : ""}
               placeholder={t("select.option.allCountry")}
-              options={[
-                { label: t("select.option.allCountry"), value: "" },
-                ...(countries ?? []).map((c: Country) => ({
-                  label: c.name,
-                  value: String(c.id),
-                })),
-              ]}
+              options={countriesOptions}
               onChange={(value) => {
+                if (countriesLoading || countriesError) return;
                 const params = new URLSearchParams(searchParams);
                 params.set("countryId", String(value));
                 params.set("page", "1");
-                console.log({ params });
 
                 setSearchParams(params);
               }}
