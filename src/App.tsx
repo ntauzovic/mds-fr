@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "./services/api/users";
 import type { User } from "./types/user";
-import { UserTable } from "./components/Tables/UserTable";
 import FilterBar from "./components/Filter/FilterBar";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import LanguageToggle from "./components/Languages/LanguageToggle";
-import { Pagination } from "./components/Pagination/Pagination";
+import UserTable from "./components/Tables/UserTable";
+import Pagination from "./components/Pagination/Pagination";
 
 export default function App() {
   const [searchParams] = useSearchParams();
