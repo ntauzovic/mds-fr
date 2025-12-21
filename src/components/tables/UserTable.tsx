@@ -8,7 +8,7 @@ interface UserTableProps {
   users: User[];
 }
 
-export function UserTable({ users }: UserTableProps) {
+export default function UserTable({ users }: UserTableProps) {
   const { t } = useLanguage();
 
   const [showDialog, setShowDialog] = React.useState(false);

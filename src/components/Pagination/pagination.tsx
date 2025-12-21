@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import type { PaginationProps } from "../../types/paginationProps";
 
-export function Pagination({ totalUsers, rows }: PaginationProps) {
+export default function Pagination({ totalUsers, rows }: PaginationProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentPage = Number(searchParams.get("page") ?? 1);
