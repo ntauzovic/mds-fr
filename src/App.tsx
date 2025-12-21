@@ -34,7 +34,6 @@ export default function App() {
 
   if (isLoading) return <p className="p-8 text-white">Loading...</p>;
   if (error) return <p className="p-8 text-white">Error loading users</p>;
-  if (!usersResponse?.data) return null;
 
   return (
     <div
@@ -63,8 +62,11 @@ export default function App() {
         <FilterBar />
 
         <div className="mt-6">
-          <UserTable users={usersResponse.data as User[]} />
-          <Pagination totalUsers={usersResponse.total} rows={limit} />
+          <UserTable users={usersResponse?.data as User[]} />
+
+          {usersResponse && (
+            <Pagination totalUsers={usersResponse.total} rows={limit} />
+          )}
         </div>
       </div>
     </div>

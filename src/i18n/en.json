@@ -26,5 +26,7 @@
   "select.option.order.desc": "DESC",
   "select.option.order.asc": "ASC",
   "toast.user.delete.success": "Successfully deleted user.",
-  "toast.user.delete.error": "Error deleting user. Please try again."
+  "toast.user.delete.error": "Error deleting user. Please try again.",
+  "table.noData.header": "No users found.",
+  "table.noData.text": "Try adjusting your filters or search criteria."
 }

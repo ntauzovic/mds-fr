@@ -87,6 +87,8 @@ export default function FilterBar() {
                 const params = new URLSearchParams(searchParams);
                 params.set("countryId", String(value));
                 params.set("page", "1");
+                console.log({ params });
+
                 setSearchParams(params);
               }}
             />
