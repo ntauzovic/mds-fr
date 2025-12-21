@@ -29,5 +29,7 @@
   "toast.user.delete.error": "Error deleting user. Please try again.",
   "table.noData.header": "No users found.",
   "spinner": "Loading user...",
+  "table.error.header": "Error loading users.",
+  "table.error.text": "There was an error fetching the user data. Please try again later.",
   "table.noData.text": "Try adjusting your filters or search criteria."
 }
