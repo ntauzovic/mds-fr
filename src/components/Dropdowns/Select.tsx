@@ -26,9 +26,7 @@ export function Select({
           focus:outline-none focus:ring-2 focus:ring-red-500
         "
       >
-        <span className={selected ? "" : "text-gray-400"}>
-          {selected?.label ?? placeholder}
-        </span>
+        <span className="text-gray-900">{selected?.label ?? placeholder}</span>
 
         <Icon
           name="angle-down"
