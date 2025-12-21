@@ -29,5 +29,7 @@
   "toast.user.delete.error": "Greška prilikom brisanja korisnika. Molimo pokušajte ponovo.",
   "table.noData.header": "Nema pronađenih korisnika.",
   "spinner": "Učitavanje korisnika...",
+  "table.error.header": "Greška pri učitavanju korisnika.",
+  "table.error.text": "Došlo je do greške prilikom preuzimanja podataka o korisnicima. Molimo pokušajte ponovo kasnije.",
   "table.noData.text": "Pokušajte da prilagodite filtere ili kriterijume pretrage."
 }

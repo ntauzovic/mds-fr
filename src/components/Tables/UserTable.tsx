@@ -8,9 +8,14 @@ import Spinner from "../Spinner/Spinner";
 interface UserTableProps {
   users?: User[];
   isLoading?: boolean;
+  isError?: boolean;
 }
 
-export default function UserTable({ users, isLoading }: UserTableProps) {
+export default function UserTable({
+  users,
+  isLoading,
+  isError,
+}: UserTableProps) {
   const { t } = useLanguage();
 
   const [showDialog, setShowDialog] = React.useState(false);
@@ -61,6 +66,22 @@ export default function UserTable({ users, isLoading }: UserTableProps) {
                   className="py-16 text-center text-sm text-gray-500"
                 >
                   <Spinner />
+                </td>
+              </tr>
+            ) : isError ? (
+              <tr>
+                <td
+                  colSpan={USER_TABLE_HEADERS.length}
+                  className="py-16 text-center"
+                >
+                  <div className="flex flex-col items-center gap-2">
+                    <p className="text-lg font-semibold text-gray-700">
+                      {t("table.error.header")}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {t("table.error.text")}
+                    </p>
+                  </div>
                 </td>
               </tr>
             ) : !users || users.length === 0 ? (

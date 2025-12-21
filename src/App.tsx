@@ -32,9 +32,6 @@ export default function App() {
 
   useEffect(() => {}, [limit]);
 
-  if (isLoading) return <p className="p-8 text-white">Loading...</p>;
-  if (error) return <p className="p-8 text-white">Error loading users</p>;
-
   return (
     <div
       className="
@@ -63,6 +60,7 @@ export default function App() {
 
         <div className="mt-6">
           <UserTable
+            isError={Boolean(error)}
             users={usersResponse?.data as User[]}
             isLoading={isLoading}
           />
